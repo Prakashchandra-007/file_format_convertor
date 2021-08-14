@@ -15,3 +15,7 @@ class UserProfileInfoForm(forms.ModelForm):
     class Meta():
         model = UserProfileInfo
         fields = ('portfolia_site', 'profile_pic')
+
+
+class UploadFileForm(forms.Form):
+    file = forms.FileField()

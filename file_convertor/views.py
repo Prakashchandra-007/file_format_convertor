@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
 from django.contrib.auth import authenticate, login, logout
+from .forms import UploadFileForm
 
 
 def index(request):
@@ -63,3 +64,28 @@ def user_login(request):
 def user_logout(request):
     logout(request)
     return HttpResponseRedirect(reverse('file_convertor:index'))
+
+
+def upload_file(request):
+    if request.method == 'POST':
+        form = UploadFileForm(request.POST, request.FILES)
+
+        if form.is_valid():
+
+            handle_uploaded_file(request.FILES['file'])
+
+            return HttpResponseRedirect('main_page.html')
+    else:
+        form = UploadFileForm()
+    return render(request, 'main_page.html', {'form': form})
+
+
+def handle_uploaded_file(f):
+    with open('/home/prakash/doc_covert_proj/static/upload/'+f.name, 'wb+') as destination:
+        for chunk in f.chunks():
+            destination.write(chunk)
+
+
+def conver(request):
+    print("working>>>>>>>>>>>>>>>>")
+    return HttpRespons('final tuns')
