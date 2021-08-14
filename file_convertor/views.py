@@ -1,3 +1,4 @@
+
 from django.shortcuts import render
 from file_convertor.forms import UserProfileInfoForm, UserForm
 # Create your views here.
@@ -7,6 +8,9 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
 from django.contrib.auth import authenticate, login, logout
 from .forms import UploadFileForm
+
+import mimetypes
+import os
 
 
 def index(request):
@@ -66,6 +70,7 @@ def user_logout(request):
     return HttpResponseRedirect(reverse('file_convertor:index'))
 
 
+@login_required
 def upload_file(request):
     if request.method == 'POST':
         form = UploadFileForm(request.POST, request.FILES)
@@ -74,14 +79,15 @@ def upload_file(request):
 
             handle_uploaded_file(request.FILES['file'])
 
-            return HttpResponseRedirect('main_page.html')
+            return HttpResponseRedirect('landing')
     else:
         form = UploadFileForm()
     return render(request, 'main_page.html', {'form': form})
 
 
 def handle_uploaded_file(f):
-    with open('/home/prakash/doc_covert_proj/static/upload/'+f.name, 'wb+') as destination:
+    BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    with open(BASE_DIR + '/static/upload/download.txt', 'wb+') as destination:
         for chunk in f.chunks():
             destination.write(chunk)
 
@@ -89,3 +95,30 @@ def handle_uploaded_file(f):
 def conver(request):
     print("working>>>>>>>>>>>>>>>>")
     return HttpRespons('final tuns')
+#  download file
+
+
+def download_page(request):
+
+    return render(request, 'download.html')
+
+
+def download_file(request):
+    # Define Django project base directory
+    BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    # Define text file name
+    filename = 'test.txt'
+    # Define the full file path
+
+    filepath = BASE_DIR + '/static/upload/' + filename
+
+    # Open the file for reading content
+    path = open(filepath, 'r')
+    # Set the mime type
+    mime_type, _ = mimetypes.guess_type(filepath)
+    # Set the return value of the HttpResponse
+    response = HttpResponse(path, content_type=mime_type)
+    # Set the HTTP header for sending to browser
+    response['Content-Disposition'] = "attachment; filename=%s" % filename
+    # Return the response value
+    return response

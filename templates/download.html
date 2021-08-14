@@ -1,0 +1,8 @@
+{% extends 'base.html' %} {% load static %} {% block body_block%} {{context}}
+<div class="mt-3 text-center" style="">
+  <a href="{% url 'file_convertor:download' %}" class="btn btn-primary"
+    >download</a
+  >
+</div>
+
+{% endblock body_block%}

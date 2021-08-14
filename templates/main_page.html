@@ -2,12 +2,16 @@
 
 <div class="container mt-3 text-center" style="padding: 20px">
   <p>Default file:</p>
-  <form method="post" enctype="multipart/form-data">
+  <form
+    method="post"
+    action="{% url 'file_convertor:download_page' %}"
+    enctype="multipart/form-data"
+  >
     {% csrf_token %}
     <input type="file" id="myFile" name="file" style="padding-left: 250px" />
 
     <div class="mt-3 text-center" style="">
-      <button type="submit" class="btn btn-primary">Submit</button>
+      <button type="submit" class="btn btn-primary">Convert</button>
     </div>
   </form>
   {% comment %} <--d--!> {% endcomment %} {% comment %}
