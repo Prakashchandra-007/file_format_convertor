@@ -67,7 +67,7 @@ def user_login(request):
 @login_required
 def user_logout(request):
     logout(request)
-    return HttpResponseRedirect(reverse('file_convertor:index'))
+    return HttpResponseRedirect(reverse('file_convertor:user_login'))
 
 
 @login_required

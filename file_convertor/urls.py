@@ -5,7 +5,7 @@ from file_convertor import views
 
 app_name = 'file_convertor'
 urlpatterns = [
-    path('', views.main_page),
+    path('', views.user_login),
     path('landing', views.main_page, name='index'),
     path('main_page', views.upload_file, name='main_page'),
     path('register', views.register, name='register'),
